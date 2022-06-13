@@ -1,0 +1,38 @@
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+            <h5 class="card-title">{{title}}</h5>
+
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Тип обрашение</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Телефон</th>
+                    <th scope="col">Текст</th>
+                    <th scope="col">Время</th>
+                    <th scope="col">Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each feedback}}
+                <tr>
+                    <th>{{@index}}</th>
+                    <td>{{{type}}}</td>
+                    <td>{{name}}</td>
+                    <td>{{phone}}</td>
+                    <td>{{text}}</td>
+                    <td>{{createdAt}}</td>
+                    <td><a href="/feedback/status/{{_id}}">{{{status}}}</a></td>
+
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+

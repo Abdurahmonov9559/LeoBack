@@ -1,0 +1,157 @@
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+            <h5 class="card-title">{{title}}</h5>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCategory">
+                Новый атрибут
+            </button>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Категория</th>
+                    <th scope="col">Порядка номера</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each atribut}}
+                <tr>
+                    <th>{{@index}}</th>
+                    <td>{{title}}</td>
+                    <td>{{category.title}}</td>
+                    <td>{{order}}</td>
+                    <td><a href="/atribut/status/{{_id}}">{{{status}}}</a></td>
+                    <td class="ml-auto text-right">
+                        <button class="btn btn-warning" onclick="get('{{_id}}')" data-bs-toggle="modal" data-bs-target="#upCategory">
+                            <i class="fa fa-pen"></i>
+                        </button>
+                        <a href="/atribut/delete/{{_id}}" class="btn btn-danger ml-2" onclick="return confirm('Вы уверены?')">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+    <div class="modal fade" id="newCategory" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Новый атрибут</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/atribut?_csrf={{csrf}}" method="post" class="needs-validation" novalidate>
+                        <div class="form-floating mb-3">
+                            <input type="text" name="title" class="form-control" id="title" required placeholder="Название">
+                            <label for="title">Название</label>
+                            <div class="invalid-feedback">
+                            Заполните поля
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="validationCustom04" class="form-label">Категория</label>
+                            <select name="category" class="form-select" id="validationCustom04" required="">
+                            <option selected="" disabled="" value="">Выберите из списка</option>
+                            {{#each category}}
+                                <option value="{{_id}}">{{title}}</option>
+                            {{/each}}
+                            </select>
+                            <div class="invalid-feedback">
+                            Выберите из списка
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" name="order" class="form-control" id="order"  placeholder="Название">
+                            <label for="order">Номер порядки</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" name="status" value="1" type="checkbox" id="status" checked="">
+                            <label class="form-check-label" for="status">Активный</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="upCategory" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Редактировать</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/atribut/save?_csrf={{csrf}}" method="post" class="needs-validation" novalidate  name="atribut">
+                        <input type="hidden" name="_id" value="">
+                        <div class="form-floating mb-3">
+                            <input type="text" name="title" class="form-control" id="title" required placeholder="Название">
+                            <label for="title">Название</label>
+                            <div class="invalid-feedback">
+                            Заполните поля
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="validationCustom04" class="form-label">Категория</label>
+                            <select name="category" class="form-select" id="validationCustom04" required="">
+                            <option selected="" disabled="" value="">Выберите из списка</option>
+                            {{#each category}}
+                                <option value="{{_id}}">{{title}}</option>
+                            {{/each}}
+                            </select>
+                            <div class="invalid-feedback">
+                            Выберите из списка
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" name="order" class="form-control" id="order"  placeholder="Название">
+                            <label for="order">Номер порядки</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" name="status" value="1" type="checkbox" id="status" checked="">
+                            <label class="form-check-label" for="status">Активный</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    let form = document.forms.atribut
+    const get = (id) => {
+        fetch(`/api/atribut/get/${id}`)
+        .then(res => res.json())
+        .then(atribut =>{
+            form._id.value = atribut._id
+            form.category.value = atribut.category
+            form.title.value = atribut.title
+            form.status.checked = atribut.status == 0 ? false : true
+            form.order.value = atribut.order
+
+            
+        })
+
+    }
+
+</script>

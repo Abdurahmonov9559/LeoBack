@@ -1,0 +1,201 @@
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+            <h5 class="card-title">{{title}}</h5>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCategory">
+                Новая новостей
+            </button>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Номер</th>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each blog}}
+                <tr>
+                    <th>{{@index}}</th>
+                    <td><img src='/{{img}}' width="50"/> {{title}}</td>
+                    <td>{{order}}</td>
+                    <td>{{createdAt}}</td>
+                    <td><a href="/blog/status/{{_id}}">{{{status}}}</a></td>
+                    <td class="ml-auto text-right">
+                        <button class="btn btn-warning" onclick="get('{{_id}}')" data-bs-toggle="modal" data-bs-target="#upCategory">
+                            <i class="fa fa-pen"></i>
+                        </button>
+                        <a href="/blog/delete/{{_id}}" class="btn btn-danger ml-2" onclick="return confirm('Вы уверены?')">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+    <div class="modal fade" id="newCategory" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить новости</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form name="newblog" class="needs-validation"  enctype="multipart/form-data">
+                        <div class="form-floating mb-3">
+                            <input type="text" name="title" class="form-control" id="title" required placeholder="Название">
+                            <label for="title">Название</label>
+                            <div class="invalid-feedback">
+                            Заполните поля
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="text">Краткое описание</label>
+                                <textarea name="description" class="form-control"  placeholder="Краткое описание" value="0"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="text">Описание товара</label>
+                                <textarea name="text" class="form-control" id="text"  placeholder="Описание товара" value="0"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" name="order" class="form-control" id="order"  placeholder="Название">
+                            <label for="order">Номер порядки</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" name="status" value="1" type="checkbox" id="status" checked="">
+                            <label class="form-check-label" for="status">Активный</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="img" class="form-label">Фотография блога</label>
+                            <input class="form-control" type="file" id="img" name="img">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="upCategory" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Редактировать</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="needs-validation" enctype="multipart/form-data" name="blog">
+                        <input type="hidden" name="_id" value="">
+                        <div class="form-floating mb-3">
+                            <input type="text" name="title" class="form-control" id="title" required placeholder="Название">
+                            <label for="title">Название</label>
+                            <div class="invalid-feedback">
+                            Заполните поля
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="text">Краткое описание</label>
+                                <textarea name="description" class="form-control"  placeholder="Краткое описание" value="0"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="text">Описание товара</label>
+                                <textarea name="text" class="form-control" id="text1"  placeholder="Описание товара" value="0"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" name="order" class="form-control" id="order"  placeholder="Название">
+                            <label for="order">Номер порядки</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" name="status" value="1" type="checkbox" id="status" checked="">
+                            <label class="form-check-label" for="status">Активный</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="img" class="form-label">Фотография блога</label>
+                            <input class="form-control" type="file" id="img1" name="img">
+                        </div>
+                        <div class="mb-3">
+                            <img src="" alt="" id="showimg" width="60" style="display: none;">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+
+    let newblog = document.forms.newblog
+
+    newblog.addEventListener('submit',(e)=>{
+        e.preventDefault()
+        let img = document.getElementById('img')
+        let formData = new FormData(newblog)
+        fetch('/blog',{
+            method:'post',
+            body:formData,
+        }).then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+            location.reload()
+        })
+    })
+
+    let form = document.forms.blog
+    let img = document.getElementById('showimg')
+    const get = (id) => {
+        fetch(`/api/blog/get/${id}`)
+        .then(res => res.json())
+        .then(blog =>{
+            form._id.value = blog._id
+            form.text.value = blog.text
+            form.description.value = blog.description
+            form.title.value = blog.title
+            form.status.checked = blog.status == 0 ? false : true
+            form.order.value = blog.order
+            console.log(blog.img)
+            img.setAttribute('src',`/${blog.img}`)
+            img.style.display = 'block'
+            
+        })
+
+    }
+
+    form.addEventListener('submit', (e)=> {
+        e.preventDefault()
+        console.log(form)
+        let upFormData = new FormData(form)
+        fetch('/blog/save',{
+            method:'put',
+            body:upFormData,
+        }).then(res=>res.json())
+        .then(data=>{
+            location.reload()
+        })
+    })
+
+</script>

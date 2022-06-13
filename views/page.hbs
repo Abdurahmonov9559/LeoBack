@@ -1,0 +1,188 @@
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+            <h5 class="card-title">{{title}}</h5>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCategory">
+                Новая страница
+            </button>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Меню</th>
+                    <th scope="col">Форма</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each page}}
+                <tr>
+                    <th>{{@index}}</th>
+                    <td>{{title}}</td>
+                    <td>{{{menu}}}</td>
+                    <td>{{{feedback}}}</td>
+                    <td><a href="/page/status/{{_id}}">{{{status}}}</a></td>
+                    <td class="ml-auto text-right">
+                        <button class="btn btn-warning" onclick="get('{{_id}}')" data-bs-toggle="modal" data-bs-target="#upCategory">
+                            <i class="fa fa-pen"></i>
+                        </button>
+                        <a href="/page/delete/{{_id}}" class="btn btn-danger ml-2" onclick="return confirm('Вы уверены?')">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+    <div class="modal fade" id="newCategory" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить страницу</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/page?_csrf={{csrf}}" method="post" class="needs-validation" novalidate>
+                        <div class="form-floating mb-3">
+                            <input type="text" name="title" class="form-control" id="title" required placeholder="Название">
+                            <label for="title">Название</label>
+                            <div class="invalid-feedback">
+                            Заполните поля
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" name="slug" class="form-control" id="slug" required placeholder="Урл">
+                            <label for="slug">Урл страницы</label>
+                            <div class="invalid-feedback">
+                            Заполните поля
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="text">Текст</label>
+                                <textarea name="text" class="form-control" id="text"  placeholder="Текст" value="0"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedback" class="form-label">Форма</label>
+                            <select name="feedback" class="form-select" id="feedback" required="">
+                            <option selected="" disabled="" value="">Выберите из списка</option>
+                                <option value="0">Отключено</option>
+                                <option value="1">Форма "Подписка"</option>
+                                <option value="2">Форма "Заполните форму"</option>
+                            </select>
+                            <div class="invalid-feedback">
+                            Выберите из списка
+                            </div>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" name="status" value="1" type="checkbox" id="status" checked="">
+                            <label class="form-check-label" for="status">Активный</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" name="menu" value="1" type="checkbox" id="menu" checked="">
+                            <label class="form-check-label" for="menu">Меню</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="upCategory" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Редактировать</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/page/save?_csrf={{csrf}}" method="post" class="needs-validation" novalidate  name="page">
+                        <input type="hidden" name="_id" value="">
+                        <div class="form-floating mb-3">
+                            <input type="text" name="title" class="form-control" id="title" required placeholder="Название">
+                            <label for="title">Название</label>
+                            <div class="invalid-feedback">
+                            Заполните поля
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" name="slug" class="form-control" id="slug" required placeholder="Урл">
+                            <label for="slug">Урл страницы</label>
+                            <div class="invalid-feedback">
+                            Заполните поля
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="text">Текст</label>
+                                <textarea name="text" class="form-control" id="text1"  placeholder="Текст" value="0"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedback" class="form-label">Форма</label>
+                            <select name="feedback" class="form-select" id="feedback" required="">
+                            <option selected="" disabled="" value="">Выберите из списка</option>
+                                <option value="0">Отключено</option>
+                                <option value="1">Форма "Подписка"</option>
+                                <option value="2">Форма "Заполните форму"</option>
+                            </select>
+                            <div class="invalid-feedback">
+                            Выберите из списка
+                            </div>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" name="status" value="1" type="checkbox" id="status" checked="">
+                            <label class="form-check-label" for="status">Активный</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" name="menu" value="1" type="checkbox" id="menu" checked="">
+                            <label class="form-check-label" for="menu">Меню</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'text' );
+    CKEDITOR.replace( 'text1' );
+    let form = document.forms.page
+    let img = document.getElementById('showimg')
+    const get = (id) => {
+        fetch(`/api/page/get/${id}`)
+        .then(res => res.json())
+        .then(page =>{
+            form._id.value = page._id
+            form.slug.value = page.slug
+            CKEDITOR.instances['text1'].setData(page.text);
+            form.title.value = page.title
+            form.status.checked = page.status == 0 ? false : true
+            form.menu.checked = page.menu == 0 ? false : true
+            form.feedback.value = page.feedback
+        })
+
+    }
+
+</script>

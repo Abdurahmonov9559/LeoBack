@@ -1,0 +1,219 @@
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+            <h5 class="card-title">{{title}}</h5>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newVakansi">
+                Новая вакансии
+            </button>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Время</th>
+                    <th scope="col">Номер порядки</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each vakansi}}
+                <tr>
+                    <th>{{@index}}</th>
+                    <td> {{title}}</td>
+                    <td> {{createdAt}}</td>
+                    <td>{{order}}</td>
+                    <td><a href="/vakansi/status/{{_id}}">{{{status}}}</a></td>
+                    <td class="ml-auto text-right">
+                        <button class="btn btn-primary" onclick="show('{{_id}}')" data-bs-toggle="modal" data-bs-target="#showVakansi">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                        <button class="btn btn-warning ml-2" onclick="get('{{_id}}')" data-bs-toggle="modal" data-bs-target="#upCategory">
+                            <i class="fa fa-pen"></i>
+                        </button>
+                        <a href="/vakansi/delete/{{_id}}" class="btn btn-danger ml-2" onclick="return confirm('Вы уверены?')">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+    <div class="modal fade" id="showVakansi" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Список кондидатов </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">№</th>
+                                <th scope="col">Ф.И.О</th>
+                                <th scope="col">Номер телефон</th>
+                                <th scope="col">Резюме</th>
+                                <th scope="col">Текст</th>
+                                <th scope="col">Статус</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="condilist">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="newVakansi" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить вакансии</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/vakansi?_csrf={{csrf}}" method="post" class="needs-validation" novalidate >
+                        <div class="form-floating mb-3">
+                            <input type="text" name="title" class="form-control" id="title" required placeholder="Название">
+                            <label for="title">Название</label>
+                            <div class="invalid-feedback">
+                            Заполните поля
+                            </div>
+                        </div>
+                       
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="text">Описание товара</label>
+                                <textarea name="text" class="form-control" id="text"  placeholder="Описание товара" value="0"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" name="order" class="form-control" id="order"  placeholder="Название">
+                            <label for="order">Номер порядки</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" name="status" value="1" type="checkbox" id="status" checked="">
+                            <label class="form-check-label" for="status">Активный</label>
+                        </div>
+                       
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="upCategory" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Редактировать</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/vakansi/save?_csrf={{csrf}}" method="post" class="needs-validation" novalidate name="vakansi">
+                        <input type="hidden" name="_id" value="">
+                        <div class="form-floating mb-3">
+                            <input type="text" name="title" class="form-control" id="title" required placeholder="Название">
+                            <label for="title">Название</label>
+                            <div class="invalid-feedback">
+                            Заполните поля
+                            </div>
+                        </div>
+                      
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="text">Описание</label>
+                                <textarea name="text" class="form-control" id="text1" value="0"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" name="order" class="form-control" id="order"  placeholder="Название">
+                            <label for="order">Номер порядки</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" name="status" value="1" type="checkbox" id="status" checked="">
+                            <label class="form-check-label" for="status">Активный</label>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <img src="" alt="" id="showimg" width="60" style="display: none;">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
+<script>
+
+    function show(id){
+        let box = document.getElementById('condilist')
+        fetch(`/api/vakansi/get/${id}`)
+        .then(res => res.json())
+        .then(vakansi =>{
+            if (vakansi.condi.length>0){
+                box.innerHTML = ''
+                vakansi.condi.forEach((cond,index) => {
+                    box.innerHTML += `
+                        <tr>
+                            <td scope="col">${index+1}</td>
+                            <td scope="col">${cond.sname} ${cond.name} ${cond.fname}</td>
+                            <td scope="col">${cond.phone}</td>
+                            <td scope="col"><a href='${cond.file}'>Резюме</a></td>
+                            <td scope="col">${cond.text}</td>
+                            <td scope="col">${cond.status}</td>
+                            <td scope="col"></td>
+                        </tr>
+                    `
+                })
+            }
+        })
+    }
+
+
+    CKEDITOR.replace( 'text' );
+    CKEDITOR.replace( 'text1' );
+    let form = document.forms.vakansi
+   
+    const get = (id) => {
+        fetch(`/api/vakansi/get/${id}`)
+        .then(res => res.json())
+        .then(vakansi =>{
+            form._id.value = vakansi._id
+            CKEDITOR.instances['text1'].setData(vakansi.text);
+            
+            form.title.value = vakansi.title
+            form.status.checked = vakansi.status == 0 ? false : true
+            form.order.value = vakansi.order
+           
+            
+        })
+
+    }
+
+</script>

@@ -1,0 +1,137 @@
+<div class="row">
+    <div class="col-md-6 col-xl-3">
+        <div class="card stat-widget">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0">пользователей</h5>
+                <h2>{{user.length}}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card stat-widget">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0">Категории</h5>
+                <h2>{{category.length}}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card stat-widget">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0">Товары</h5>
+                <h2>{{product.length}}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-lg-8">
+        <div class="card table-widget">
+            <div class="card-body">
+                <h5 class="card-title">Zakaz</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">№</th>
+                                <th scope="col">Имя заказчика</th>
+                                <th scope="col">Заказы</th>
+                                <th scope="col">Сумма заказа</th>
+                                <th scope="col">Время заказа</th>
+                                <th scope="col">Статус</th>
+                                <th scope="col">Nomer</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each checkout}}
+                                <tr>
+                                    <th>{{@index}}</th>
+                                    <td>{{user.name}}</td>
+                                    <td>{{{products}}}</td>
+                                    <td>{{summa}} $</td>
+                                    <td>{{createdAt}}</td>
+                                    <td><a href="/checkout/status/{{_id}}">{{{status}}}</a></td>
+                                    <td>{{phone}}</td>
+                                    <td class="ml-auto text-right">
+                                        <a href="/checkout/delete/{{_id}}" class="btn btn-danger ml-2" onclick="return confirm('Вы уверены?')">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-4">
+        <div class="card stat-widget">
+            <div class="card-body">
+                <h5 class="card-title">Список категории</h5>
+                {{#each category}}
+                <div class="transactions-list">
+                    <div class="tr-item">
+                        <div class="tr-company-name">
+                            <div class="tr-icon tr-card-icon tr-card-bg-primary text-primary">
+                                <img src="/{{img}}" alt="" width="40">
+                            </div>
+                            <div class="tr-text">
+                                <h4>{{title}}</h4>
+                                <p>{{count}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+            <h5 class="card-title">Oneclick zakaz</h5>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Имя получателя</th>
+                    <th scope="col">Адрес</th>
+                    <th scope="col">Номер телефона</th>
+                    <th scope="col">Продукт</th>
+                    <th scope="col">Время заказа</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each oneclick}}
+                <tr>
+                    <th>{{@index}}</th>
+                    <td>{{name}}</td>
+                    <td>{{address}}</td>
+                    <td>{{phone}}</td>
+                    <td width="400">{{product.title}}</td>
+                    <td>{{createdAt}}</td>
+                    <td><a href="/oneclick/status/{{_id}}">{{{status}}}</a></td>
+                    <td class="ml-auto text-right">
+                        <button class="btn btn-warning" onclick="getone('{{_id}}')" data-bs-toggle="modal" data-bs-target="#upCategory">
+                            <i class="fa fa-pen"></i>
+                        </button>
+                        <a href="/oneclick/delete/{{_id}}" class="btn btn-danger ml-2" onclick="return confirm('Вы уверены?')">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</div>

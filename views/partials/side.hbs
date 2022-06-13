@@ -1,0 +1,68 @@
+<div class="page-sidebar">
+    <ul class="list-unstyled accordion-menu">
+        <li class="sidebar-title">
+            Главная
+        </li>
+        <li {{#if isHome}}class="active-page"{{/if}}>
+            <a href="/"><i data-feather="home"></i>Главная</a>
+        </li>
+        <li class="sidebar-title">
+            Финанс
+        </li>
+        <li {{#if isCheckout}}class="active-page"{{/if}}>
+            <a href="/checkout"><i data-feather="grid"></i>Заказы</a>
+        </li>
+        <li {{#if isCategory}}class="active-page"{{/if}}>
+            <a href="/oneclick"><i data-feather="grid"></i>Oneclick заказы</a>
+        </li>
+        <li class="sidebar-title">
+            Управление продуктами
+        </li>
+        <li {{#if isCategory}}class="active-page"{{/if}}>
+            <a href="/category"><i data-feather="grid"></i>Категория</a>
+        </li>
+        <li {{#if isAtribut}}class="active-page"{{/if}}>
+            <a href="/atribut"><i data-feather="grid"></i>Атрибуты</a>
+        </li>
+        <li {{#if isProduct}}class="active-page"{{/if}}>
+            <a href="/product"><i data-feather="grid"></i>Товары</a>
+        </li>
+        <li {{#if isUser}}class="active-page"{{/if}}>
+            <a href="/user"><i data-feather="users"></i>Пользователи</a>
+        </li>
+        <li class="sidebar-title">
+            Управление контентом
+        </li>
+        <li {{#if isBlog}}class="active-page"{{/if}}>
+            <a href="/blog"><i data-feather="grid"></i>Новости</a>
+        </li>
+        <li {{#if isPromo}}class="active-page"{{/if}}>
+            <a href="/promo"><i data-feather="grid"></i>Акции</a>
+        </li>
+        <li {{#if isPage}}class="active-page"{{/if}}>
+            <a href="/page"><i data-feather="grid"></i>Страницы</a>
+        </li>
+        <li class="sidebar-title">
+            Обрашение
+        </li>
+        <li {{#if isFeedback}}class="active-page"{{/if}}>
+            <a href="/feedback"><i data-feather="list"></i>Обратная связь</a>
+        </li>
+        <li {{#if isProjects}}class="active-page"{{/if}}>
+            <a href="/projects"><i data-feather="briefcase"></i>Loyihalar</a>
+        </li>
+        <li {{#if isVakansi}}class="active-page"{{/if}}>
+            <a href="/vakansi"><i data-feather="grid"></i>Вакансии</a>
+        </li>
+        <li {{#if isFaq}}class="active-page"{{/if}}>
+            <a href="/faq"><i data-feather="message-circle"></i>Savol-javob</a>
+        </li>
+        <li {{#if isSettings}}class="active-page"{{/if}}>
+            <a href="/settings"><i data-feather="settings"></i>Sozlamalar</a>
+        </li>
+        <li class="sidebar-title">Контент</li>
+        <li {{#if isSlider}}class="active-page"{{/if}}>
+            <a href="/slider"><i data-feather="list"></i>Слайды</a>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,383 @@
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+            <h5 class="card-title">{{title}}</h5>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCategory">
+                Новый товар
+            </button>
+        </div>
+
+        <table class="table invoice-table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Категория</th>
+                    <th scope="col">Стоимость</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col">Порядка номера</th>
+                    <th scope="col">Leo ili Gidrox</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each product}}
+                <tr>
+                    <th><img src='/{{img}}' width="50"/></th>
+                    <td> {{title}}</td>
+                    <td>{{category.title}}</td>
+                    <td>{{price}}$</td>
+                    <td><a href="/product/status/{{_id}}">{{{status}}}</a></td>
+                    <td>{{order}}</td>
+                    {{#if leo}}
+                        <td>{{leo}}</td>
+                    {{else}}
+                        <td>{{gidrox}}</td>
+                    {{/if}}
+                    <td class="ml-auto text-right">
+                        <a  onclick="get('{{_id}}')" data-bs-toggle="modal" data-bs-target="#upCategory">
+                            <i data-feather="edit"></i>
+                        </>
+                        <a href="/product/view/{{_id}}"><i data-feather="eye"></i></a>
+                        <a href="/product/delete/{{_id}}" onclick="return confirm('Вы уверены?')">
+                            <i data-feather="x"></i>
+                        </a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+    <div class="modal fade" id="newCategory" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Новая категория</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="needs-validation" enctype="multipart/form-data" name="newproduct">
+                    <input type="hidden" name="atributes">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Название</label>
+                                    <input type="text" name="title" class="form-control" id="title" required placeholder="Название">
+                                    <div class="invalid-feedback">
+                                    Заполните поля
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="validationCustom04" class="form-label">Категория</label>
+                                    <select name="category" class="form-select" id="validationCustom04" required=""
+                                    onchange="getatribute(event.target.value)"
+                                    >
+                                    <option selected="" disabled="" value="">Выберите из списка</option>
+                                    {{#each category}}
+                                        <option value="{{_id}}">{{title}}</option>
+                                    {{/each}}
+                                    </select>
+                                    <div class="invalid-feedback">
+                                    Выберите из списка
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-floating mb-3">
+                                    <input type="number" name="price" class="form-control" id="order"  placeholder="Название">
+                                    <label for="order">Стоимость</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-floating mb-3">
+                                    <input type="number" name="sale" class="form-control" id="order"  placeholder="Название" value="0">
+                                    <label for="order">Скидка %</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="text">Описание товара</label>
+                                    <textarea name="text" class="form-control" id="text"  placeholder="Описание товара" value="0"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="atrlist">
+
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class=" mb-3">
+                                    <input type="number" name="order" class="form-control" id="order"  placeholder="Номер порядки">
+                                    
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="mb-3">
+                                    <select name="status" class="form-select" id="validationCustom04" required=""
+                                    >
+                                    <option selected="" disabled="" value="">Выберите статус товара из списка</option>
+                                    <option value="0">Нет в наличие</option>
+                                    <option value="1">Есть в наличие</option>
+                                    <option value="2">Предзаказ</option>
+                                    <option value="3">Отключено</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                    Выберите статус товара из списка
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="mb-3 d-flex align-items-center justify-content-around">
+                                    <div class="form-check form-switch mr-3">
+                                        <input class="form-check-input" name="top" value="1" type="checkbox" id="top">
+                                        <label class="form-check-label" for="top">Топ товар</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" name="news" value="1" type="checkbox" id="news" >
+                                        <label class="form-check-label" for="news">Новый товар</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-between">
+                            <div class="col-3">
+                                <div class="mb-3">
+                                    <label for="img1" class="form-label">Фотографи</label>
+                                    <input class="form-control" type="file" multiple id="img1" name="img1">
+                                </div>
+                            </div>
+                            <div class="form-check form-switch mr-3 col-3 mt-4">
+                                <input class="form-check-input" name="leo" value="1" type="checkbox" id="leo">
+                                <label class="form-check-label" for="leo">Leo</label>
+                            </div>
+                            <div class="form-check form-switch mr-3 col-3 mt-4">
+                                <input class="form-check-input" name="gidrox" value="1" type="checkbox" id="gidrox">
+                                <label class="form-check-label" for="gidrox">Gidrox</label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="upCategory" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Новая категория</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation" enctype="multipart/form-data" name="upproduct">
+                <input type="hidden" name="_id">
+                <input type="hidden" name="atributes">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Название</label>
+                                <input type="text" name="title" class="form-control" id="title" required placeholder="Название">
+                                <div class="invalid-feedback">
+                                Заполните поля
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="validationCustom04" class="form-label">Категория</label>
+                                <select name="category" class="form-select" id="validationCustom04" required=""
+                                onchange="getatribute(event.target.value)"
+                                >
+                                <option selected="" disabled="" value="">Выберите из списка</option>
+                                {{#each category}}
+                                    <option value="{{_id}}">{{title}}</option>
+                                {{/each}}
+                                </select>
+                                <div class="invalid-feedback">
+                                Выберите из списка
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating mb-3">
+                                <input type="number" name="price" class="form-control" id="order"  placeholder="Название">
+                                <label for="order">Стоимость</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating mb-3">
+                                <input type="number" name="sale" class="form-control" id="order"  placeholder="Название" value="0">
+                                <label for="order">Скидка %</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="text">Описание товара</label>
+                                <textarea name="text" class="form-control" id="text"  placeholder="Описание товара" value="0"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="atributs" id="atributs">
+                    <div class="row getatr">
+                        {{#each atribut}}
+                            <div class="col-4">
+                                <div class="form-floating mb-3">
+                                    <input type="text" data-id="{{_id}}" class="form-control" placeholder="{{title}}">
+                                </div>
+                            </div>
+                        {{/each}}
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class=" mb-3">
+                                <input type="number" name="order" class="form-control" id="order"  placeholder="Номер порядки">
+                                
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="mb-3">
+                                <select name="status" class="form-select" id="validationCustom04" required=""
+                                >
+                                <option selected="" disabled="" value="">Выберите статус товара из списка</option>
+                                <option value="0">Нет в наличие</option>
+                                <option value="1">Есть в наличие</option>
+                                <option value="2">Предзаказ</option>
+                                <option value="3">Отключено</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                Выберите статус товара из списка
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="mb-3 d-flex align-items-center justify-content-around">
+                                <div class="form-check form-switch mr-3">
+                                    <input class="form-check-input" name="top" value="1" type="checkbox" id="top">
+                                    <label class="form-check-label" for="top">Топ товар</label>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" name="news" value="1" type="checkbox" id="news" >
+                                    <label class="form-check-label" for="news">Новый товар</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="mb-3">
+                                <label for="img1" class="form-label">Фотографи</label>
+                                <input class="form-control" type="file" multiple id="img1" name="img1">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    
+    {{!-- function get(id){
+        fetch(`/product/status/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            if(data !== 'error'){
+                let upproduct = document.forms.upproduct
+                upproduct._id.value = data._id
+                upproduct.title.value = data.title
+                upproduct.status.checked = data.status == 0 ? false : true
+                upproduct.order.value = data.order
+                console.log(data.img)
+                img.setAttribute('src',`/${data.img}`)
+                img.style.display = 'block'
+            }
+        })
+    } --}}
+    
+    let upproduct = document.forms.upproduct
+    let img = document.getElementById('showimg')
+    const get = (id) => {
+        fetch(`/api/product/get/${id}`)
+        .then(res => res.json())
+        .then(product =>{
+            console.log(product)
+            upproduct._id.value = product._id
+            upproduct.title.value = product.title
+            upproduct.category.value = product.category
+            upproduct.price.value = product.price
+            upproduct.sale.value = product.sale
+            upproduct.text.value = product.text
+            upproduct.order.value = product.order
+            upproduct.status.checked = product.status == 0 ? false : true
+            upproduct.top.checked = product.top == 0 ? false : true
+            upproduct.news.checked = product.news == 0 ? false : true
+            upproduct.order.value = product.order
+            console.log(product.img)
+            img.setAttribute('src',`/${product.img}`)
+            img.style.display = 'block'
+        })
+
+    }
+    let atrlist = document.getElementById('atrlist')
+    function getatribute(id){
+        atrlist.innerHTML = ''
+        fetch(`/api/atribut/bycat/${id}`)   
+        .then(res => res.json())
+        .then(atributes => {
+            if (atributes.length>0){
+                atributes.forEach((atr,index) => {
+                    atrlist.innerHTML += `
+                        <div class='col-3'>
+                            <div class="mb-3">
+                                <label for="order${index}">${atr.title}</label>
+                                <input type="text" name="atr${index}" data-id="${atr._id}" class="form-control" id="order${index}">
+                            </div>
+                        </div>
+
+                    `
+                })
+            }
+        })
+    }
+
+    let newProduct = document.forms.newproduct
+    newProduct.addEventListener('submit',(e)=>{
+        e.preventDefault()
+        let data = []
+        let atrInput = document.querySelectorAll('#atrlist input')
+        atrInput.forEach(inp => {
+            data.push({
+                atribut: inp.getAttribute('data-id'),
+                value: inp.value
+            })
+        })
+        
+        newProduct.atributes.value = JSON.stringify(data)
+        let formData = new FormData(newproduct)
+        fetch('/product',{
+            method:'post',
+            body:formData,
+        }).then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+            location.reload()
+        })
+    })
+</script>

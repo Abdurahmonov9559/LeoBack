@@ -1,0 +1,26 @@
+<header>
+  <ul>
+    <li>
+      <a href="/"
+        {{#if isHome}}
+        class="active"
+        {{/if}}
+      >Bosh sahifa</a>
+    </li>
+    <li><a 
+      href="/workers"
+      {{#if isWorkers}}
+        class="active"
+      {{/if}}
+    >Xodimlar</a></li>
+    <li><a href="/todos">Topshiriqlar</a></li>
+    {{#if isAuthed}}
+    <li><a href="/projects">Loyihalar</a></li>
+    <li><a href="/users/logout">Chiqish</a></li>
+    <li>{{user.login}}</li>
+    {{else}}
+    <li><a href="/users/login">Kirish</a></li>
+    {{/if}}
+
+  </ul>
+</header>

@@ -1,0 +1,175 @@
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+            <h5 class="card-title">{{title}}</h5>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCategory">
+                Новая категория
+            </button>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Номер</th>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each promo}}
+                <tr>
+                    <th>{{@index}}</th>
+                    <td><img src='/{{img}}' width="50"/> {{title}}</td>
+                    <td>{{order}}</td>
+                    <td>{{createdAt}}</td>
+                    <td><a href="/promo/status/{{_id}}">{{{status}}}</a></td>
+                    <td class="ml-auto text-right">
+                        <button class="btn btn-warning" onclick="get('{{_id}}')" data-bs-toggle="modal" data-bs-target="#upCategory">
+                            <i class="fa fa-pen"></i>
+                        </button>
+                        <a href="/promo/delete/{{_id}}" class="btn btn-danger ml-2" onclick="return confirm('Вы уверены?')">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+    <div class="modal fade" id="newCategory" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить новости</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/promo?_csrf={{csrf}}" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+                        <div class="form-floating mb-3">
+                            <input type="text" name="title" class="form-control" id="title" required placeholder="Название">
+                            <label for="title">Название</label>
+                            <div class="invalid-feedback">
+                            Заполните поля
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="text">Описание товара</label>
+                                <textarea name="text" class="form-control" id="text"  placeholder="Описание товара" value="0"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" name="order" class="form-control" id="order"  placeholder="Название">
+                            <label for="order">Номер порядки</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" name="status" value="1" type="checkbox" id="status" checked="">
+                            <label class="form-check-label" for="status">Активный</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="img" class="form-label">Маленькая фотография</label>
+                            <input class="form-control" type="file" id="img" name="img">
+                        </div>
+                        <div class="mb-3">
+                            <label for="bigimg" class="form-label">Большая фотография</label>
+                            <input class="form-control" type="file" id="bigimg" name="bigimg">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="upCategory" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Редактировать</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/promo/save?_csrf={{csrf}}" method="post" class="needs-validation" novalidate enctype="multipart/form-data" name="promo">
+                        <input type="hidden" name="_id" value="">
+                        <div class="form-floating mb-3">
+                            <input type="text" name="title" class="form-control" id="title" required placeholder="Название">
+                            <label for="title">Название</label>
+                            <div class="invalid-feedback">
+                            Заполните поля
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="text">Описание товара</label>
+                                <textarea name="text" class="form-control" id="text1"  placeholder="Описание товара" value="0"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" name="order" class="form-control" id="order"  placeholder="Название">
+                            <label for="order">Номер порядки</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" name="status" value="1" type="checkbox" id="status" checked="">
+                            <label class="form-check-label" for="status">Активный</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="img" class="form-label">Маленькая фотография</label>
+                            <input class="form-control" type="file" id="img" name="img">
+                        </div>
+                        <div class="mb-3">
+                            <label for="bigimg" class="form-label">Большая фотография</label>
+                            <input class="form-control" type="file" id="bigimg" name="bigimg">
+                        </div>
+                        <div class="mb-3">
+                            <img src="" alt="" id="showimg" width="60" style="display: none;">
+                        </div>
+                        <div class="mb-3">
+                            <img src="" alt="" id="showbigimg" width="60" style="display: none;">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'text' );
+    CKEDITOR.replace( 'text1' );
+    let form = document.forms.promo
+    let img = document.getElementById('showimg')
+    let bigimg = document.getElementById('showbigimg')
+    const get = (id) => {
+        fetch(`/api/promo/get/${id}`)
+        .then(res => res.json())
+        .then(promo =>{
+            console.log(promo)
+            form._id.value = promo._id
+            CKEDITOR.instances['text1'].setData(promo.text);
+            form.title.value = promo.title
+            form.status.checked = promo.status == 0 ? false : true
+            form.order.value = promo.order
+            img.setAttribute('src',`/${promo.img}`)
+            img.style.display = 'block'
+            bigimg.setAttribute('src',`/${promo.bigimg}`)
+            bigimg.style.display = 'block'
+            
+        })
+
+    }
+
+</script>
